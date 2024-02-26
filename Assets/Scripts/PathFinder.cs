@@ -23,23 +23,29 @@ public class PathFinder : MonoBehaviour
 
     public List<WayPoint> GetPath()
     {
-        LoadBlocks();
-        SetColorStartAndEnd();
-        PathFind();
-        CreatePath();
-        return path;
+        if(path.Count == 0)
+        {
+            LoadBlocks();
+            //SetColorStartAndEnd();
+            PathFind();
+            CreatePath();
+        }
+            return path;
     }
     private void CreatePath()
     {
         path.Add(_finish);
+        _finish.isPlaceable = false;
         WayPoint prevPoint = _finish.exploredFrom;
         while(prevPoint != _start)
         {
-            prevPoint.SetTopColor(Color.yellow);
+            //prevPoint.SetTopColor(Color.yellow);
             path.Add(prevPoint);
+            prevPoint.isPlaceable = false;
             prevPoint = prevPoint.exploredFrom;
         }
         path.Add(_start);
+        _start.isPlaceable = false;
         path.Reverse();
     }
     private void PathFind()
@@ -66,13 +72,10 @@ public class PathFinder : MonoBehaviour
         foreach (Vector2Int direction in directions) 
         {
             Vector2Int nearPointCoord = searchPoint.GetGridPos() + direction;
-            try
+            if(_grid.ContainsKey(nearPointCoord))
             {
                 WayPoint nearPoint = _grid[nearPointCoord];
                 AddPointToQueue(nearPoint);
-            }
-            catch 
-            { 
             }
         }
     }
@@ -95,9 +98,9 @@ public class PathFinder : MonoBehaviour
                 _grid.Add(gridPos, waypoint);
         }
     }
-    void SetColorStartAndEnd()
+    /*void SetColorStartAndEnd()
     {
         _start.SetTopColor(Color.green);
         _finish.SetTopColor(Color.red);
-    }
+    }*/
 }

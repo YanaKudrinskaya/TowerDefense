@@ -7,12 +7,10 @@ using UnityEngine;
 public class CubeEditor : MonoBehaviour
 {
     WayPoint wayPoint;
-    // Start is called before the first frame update
     void Awake()
     {
         wayPoint = GetComponent<WayPoint>();
     }
-    // Update is called once per frame
     void Update()
     {
         SnapToGrid();
@@ -20,7 +18,6 @@ public class CubeEditor : MonoBehaviour
     }
     private void UpdateLabel()
     {
-        int gridSize = wayPoint.GetGridSize();
         TextMesh label = GetComponentInChildren<TextMesh>();
         string labelName = wayPoint.GetGridPos().x + "," + wayPoint.GetGridPos().y;
         label.text = labelName;
